@@ -47,9 +47,9 @@ jobs:
           git config user.email "$GITHUB_ACTOR@gmail.com"
           
           # Update the container image in the deployment file
-          yq eval ".spec.template.spec.containers[0].image = \"shimiljas/aks-nodejs-argocd:$GITHUB_BRANCH\"" -i manifest/deployment.yml
+          yq e ".spec.template.spec.containers[0].image = \"shimiljas/aks-nodejs-argocd:$GITHUB_BRANCH\"" -i manifests/deployment.yml
           
           # Add, commit, and push changes
           git add .
           git commit -m "Updating newer image"
-          git push --set-upstream origin master
+          git push --set-upstream origin main
