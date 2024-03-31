@@ -19,7 +19,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
         - name: shimiljas
-          image: shimiljas/aks-nodejs-argocd:main-97b039c55f75bc7616f30604b78833289d4fb5c2
+          image: shimiljas/aks-nodejs-argocd:main-4deb6d1cca28513cbefc68b2c2d17c29a57a5053
           ports:
             - name: http
               containerPort: 1337
