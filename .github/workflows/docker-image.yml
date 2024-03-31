@@ -40,7 +40,7 @@ jobs:
 
       - name: Update manifest file
         run: |
-          # Install yq using wget (change the version number to the one you need)
+          # Install yq using wget 
           wget https://github.com/mikefarah/yq/releases/download/v4.6.1/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
 
           # Configure git
