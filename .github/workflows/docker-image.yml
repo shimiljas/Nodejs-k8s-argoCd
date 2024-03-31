@@ -48,7 +48,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
           # Update the container image in the deployment file using yq
-          yq e ".spec.template.spec.containers[0].image = \"shimiljas/aks-nodejs-argocd:$GITHUB_SHA\"" -i manifests/deployment.yaml
+          yq e ".spec.template.spec.containers[0].image = \"shimiljas/aks-nodejs-argocd:$GITHUB_REF_NAME-$GITHUB_SHA\"" -i manifests/deployment.yaml
           
           # Add, commit, and push changes
           git add manifests/deployment.yaml
@@ -56,3 +56,4 @@ jobs:
           git push origin HEAD:main
         env:
           GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
