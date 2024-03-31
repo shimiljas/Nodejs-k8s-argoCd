@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs
+  namespace: nodejs
+  labels:
+    app: nodejs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodejs
+  template:
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: shimiljas
+        image: shimiljas/aks-nodejs-argocd:latest
+        ports:
+        - name: http
+          containerPort: 1337
