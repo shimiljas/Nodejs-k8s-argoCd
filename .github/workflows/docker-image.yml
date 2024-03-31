@@ -39,17 +39,20 @@ jobs:
           docker push shimiljas/aks-nodejs-argocd:$GITHUB_REF_NAME-$GITHUB_SHA
 
       - name: Update manifest file
-        env:
-          GITHUB_BRANCH: ${{ github.ref_name }}
         run: |
+          # Install yq using wget (change the version number to the one you need)
+          wget https://github.com/mikefarah/yq/releases/download/v4.6.1/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+
           # Configure git
           git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@gmail.com"
-          
-          # Update the container image in the deployment file
-          yq e ".spec.template.spec.containers[0].image = \"shimiljas/aks-nodejs-argocd:$GITHUB_BRANCH\"" -i manifests/deployment.yml
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+          # Update the container image in the deployment file using yq
+          yq e ".spec.template.spec.containers[0].image = \"shimiljas/aks-nodejs-argocd:$GITHUB_SHA\"" -i manifests/deployment.yaml
           
           # Add, commit, and push changes
-          git add .
-          git commit -m "Updating newer image"
-          git push --set-upstream origin main
+          git add manifests/deployment.yaml
+          git commit -m "Update deployment image to $GITHUB_SHA"
+          git push origin HEAD:main
+        env:
+          GITHUB_SHA: ${{ github.sha }}
